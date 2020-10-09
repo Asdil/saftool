@@ -557,7 +557,7 @@ def gunzip_file(file_path, output=None, rename=None, del_file=False):
     print('{} ->> {}'.format(file_path, out_path))
 
 
-def read(path, sep='\n', encoding='utf-8'):
+def read(path, sep='\n', encoding='UTF-8'):
     """
     按行读数据
     :param path: 路径
@@ -565,11 +565,15 @@ def read(path, sep='\n', encoding='utf-8'):
     :param encoding: 编码
     :return:
     """
-    with open(path, 'r', encoding=encoding) as f:
-        return f.read().strip().split(sep)
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            return f.read().strip().split(sep)
+    except:
+        with open(path, 'r') as f:
+            return f.read().strip().split(sep)
 
 
-def write(data, path, sep='\n', encoding='utf-8'):
+def write(data, path, sep='\n', encoding='UTF-8'):
     """write方法用于写数据
 
     Parameters
@@ -586,8 +590,12 @@ def write(data, path, sep='\n', encoding='utf-8'):
     Returns
     ----------
     """
-    with open(path, 'w', encoding=encoding) as f:
-        f.write(sep.join(data))
+    try:
+        with open(path, 'w', encoding=encoding) as f:
+            f.write(sep.join(data))
+    except:
+        with open(path, 'w') as f:
+            f.write(sep.join(data))
 
 
 def merge_commelement_list(lsts):
@@ -649,7 +657,7 @@ def flatten(data):
     return list(itertools.chain.from_iterable(data))
 
 
-def read_json(path, encoding='utf-8'):
+def read_json(path, encoding='UTF-8'):
     """read_json方法用于读取json文件
 
     Parameters
@@ -662,8 +670,12 @@ def read_json(path, encoding='utf-8'):
     ----------
     """
     import json
-    with open(path, 'r', encoding=encoding) as f:
-        data = json.loads(f.read())
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            data = json.loads(f.read())
+    except:
+        with open(path, 'r') as f:
+            data = json.loads(f.read())
     return data
 
 
@@ -684,8 +696,12 @@ def write_json(data, path, sort=False, encoding='UTF-8'):
     ----------
     """
     import json
-    with open(path, "w", encoding=encoding) as f:
-        f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
+    try:
+        with open(path, "w", encoding=encoding) as f:
+            f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
+    except:
+        with open(path, "w") as f:
+            f.write(json.dumps(data, indent=4, ensure_ascii=False, sort_keys=sort))
 
 
 def lists_compare(l1, l2):
@@ -802,8 +818,12 @@ def write_yaml(data, path, encoding='UTF-8'):
     ----------
     """
     import yaml
-    with open(path, 'w', encoding=encoding) as yaml_file:
-        yaml.safe_dump(data, yaml_file)
+    try:
+        with open(path, 'w', encoding=encoding) as yaml_file:
+            yaml.safe_dump(data, yaml_file)
+    except:
+        with open(path, 'w') as yaml_file:
+            yaml.safe_dump(data, yaml_file)
 
 
 def load_yaml(path, encoding='UTF-8'):
@@ -820,6 +840,10 @@ def load_yaml(path, encoding='UTF-8'):
     ----------
     """
     import yaml
-    with open(path, 'r', encoding=encoding) as f:
-        config = yaml.load(f.read())
+    try:
+        with open(path, 'r', encoding=encoding) as f:
+            config = yaml.load(f.read())
+    except:
+        with open(path, 'r') as f:
+            config = yaml.load(f.read())
     return config

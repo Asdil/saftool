@@ -38,6 +38,7 @@ def is_nan(data):
     except:
         return False
 
+
 def sort_list(data, ind, ascending=True):
     """sort_list方法用于
 

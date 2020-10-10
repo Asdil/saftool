@@ -1,15 +1,22 @@
 [tool.poetry]
 name = "saftool"
-version = "0.1.0"
+version = "0.1.1"
 description = ""
-authors = ["贾培灵 <jiapeiling@yadingdata.com>"]
+authors = ["Asdil Fibrizo <jpl4job@126.com>"]
+readme = "README.md"
 license = "MIT"
+homepage = "https://github.com/Asdil/saftool"
+repository = "https://github.com/Asdil/saftool"
 
 [tool.poetry.dependencies]
 python = "^3.6"
 python-dateutil = "^2.8.1"
 
 [tool.poetry.dev-dependencies]
+
+[[tool.poetry.source]]
+name = "ali"
+url = "https://mirrors.aliyun.com/pypi/simple/"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

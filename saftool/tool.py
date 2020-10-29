@@ -39,6 +39,35 @@ def is_nan(data):
         return False
 
 
+def filter_nan(data):
+    """filter_na方法用于过滤None值
+
+    Parameters
+    ----------
+    data : list
+        数据列表
+
+    Returns
+    ----------
+    """
+    return list(filter(lambda x: not is_nan(x), data))
+
+
+def is_type(data, typ):
+    """is_type方法用于判断数据类型
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    if type(data) is typ:
+        return True
+    return False
+
+
 def sort_list(data, ind, ascending=True):
     """sort_list方法用于
 
@@ -228,9 +257,30 @@ def inter_set(l1, l2):
     :param l2:
     :return:
     """
-    assert type(l1) in [list, set]
-    assert type(l2) in [list, set]
+    assert type(l1) in {list, set, dict}
+    assert type(l2) in {list, set, dict}
+    if type(l1) is dict:
+        l1 = list(l1.keys())
+        l2 = list(l2.keys())
     return list(set(l1).intersection(set(l2)))
+
+
+def inter_set_num(l1, l2):
+    """inter_set_num方法用于
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    assert type(l1) in {list, set, dict}
+    assert type(l2) in {list, set, dict}
+    if type(l1) is dict:
+        l1 = list(l1.keys())
+        l2 = list(l2.keys())
+    return len(set(l1).intersection(set(l2)))
 
 
 def diff_set(l1, l2):
@@ -240,9 +290,30 @@ def diff_set(l1, l2):
     :param l2:
     :return:
     """
-    assert type(l1) in [list, set]
-    assert type(l2) in [list, set]
+    assert type(l1) in {list, set, dict}
+    assert type(l2) in {list, set, dict}
+    if type(l1) is dict:
+        l1 = list(l1.keys())
+        l2 = list(l2.keys())
     return list(set(l1).difference(set(l2)))
+
+
+def deff_set_num(l1, l2):
+    """deff_set方法用于差集数量
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    assert type(l1) in {list, set, dict}
+    assert type(l2) in {list, set, dict}
+    if type(l1) is dict:
+        l1 = list(l1.keys())
+        l2 = list(l2.keys())
+    return len(set(l1).difference(set(l2)))
 
 
 def union_set(l1, l2):
@@ -252,9 +323,27 @@ def union_set(l1, l2):
     :param l2:
     :return:
     """
-    assert type(l1) in [list, set]
-    assert type(l2) in [list, set]
+    assert type(l1) in {list, set, dict}
+    assert type(l2) in {list, set, dict}
+    if type(l1) is dict:
+        l1 = list(l1.keys())
+        l2 = list(l2.keys())
     return list(set(l1).union(set(l2)))
+
+
+def union_set_num(l1, l2):
+    """
+    列表并集元素数量
+    :param l1:
+    :param l2:
+    :return:
+    """
+    assert type(l1) in {list, set, dict}
+    assert type(l2) in {list, set, dict}
+    if type(l1) is dict:
+        l1 = list(l1.keys())
+        l2 = list(l2.keys())
+    return len(set(l1).union(set(l2)))
 
 
 def create_dir(path):

@@ -19,6 +19,27 @@ import gzip
 import math
 import datetime
 import time
+from collections import Counter
+
+
+def counter(data, n=None):
+    """counter方法用于统计元素数量
+
+    Parameters
+    ----------
+    data : list
+        列表数据
+    n : int
+        前n个元素
+    Returns
+    ----------
+    """
+    ret = Counter(data)
+    if not n:
+        ret = ret.most_common(len(ret))
+    else:
+        ret = ret.most_common(n)
+    return ret
 
 
 def is_nan(data):
@@ -298,8 +319,8 @@ def diff_set(l1, l2):
     return list(set(l1).difference(set(l2)))
 
 
-def deff_set_num(l1, l2):
-    """deff_set方法用于差集数量
+def diff_set_num(l1, l2):
+    """diff_set方法用于差集数量
 
     Parameters
     ----------

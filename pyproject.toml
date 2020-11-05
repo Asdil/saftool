@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "saftool"
-version = "0.1.4"
+version = "0.1.5"
 description = ""
 authors = ["Asdil Fibrizo <jpl4job@126.com>"]
 readme = "README.md"

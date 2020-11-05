@@ -22,6 +22,72 @@ import time
 from collections import Counter
 
 
+def type_assert(*ty_args, **ty_kwargs):
+    """type_assert方法用于强制确认输入格式
+
+    @type_assert(int, b=str)
+    f(a, b)
+
+    Parameters
+    ----------
+    Returns
+    ----------
+    """
+    from inspect import signature
+    from functools import wraps
+
+    def decorate(func):
+        # If in optimized mode, disable type checking
+        if not __debug__:
+            return func
+
+        # Map function argument names to supplied types
+        sig = signature(func)
+        bound_types = sig.bind_partial(*ty_args, **ty_kwargs).arguments
+
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            bound_values = sig.bind(*args, **kwargs)
+            # Enforce type assertions across supplied arguments
+            for name, value in bound_values.arguments.items():
+                if name in bound_types:
+                    if not isinstance(value, bound_types[name]):
+                        raise TypeError(
+                            'Argument {} must be {}'.format(
+                                name, bound_types[name]))
+            return func(*args, **kwargs)
+        return wrapper
+    return decorate
+
+
+def bins_by_step(start, end, step):
+    """bins_by_step方法用于等距分箱
+
+    Parameters
+    ----------
+    start : float
+        最小值
+    end : float
+        最大值
+    step : float
+        步长
+
+    Returns
+    ----------
+    """
+    if start >= end:
+        raise ValueError(u'start is greater than or equal to end')
+    ret = [start]
+    while True:
+        if ret[-1] + step >= end:
+            if ret[-1] == end:
+                break
+            ret.append(end)
+            break
+        ret.append(ret[-1] + step)
+    return ret
+
+
 def counter(data, n=None):
     """counter方法用于统计元素数量
 
@@ -47,7 +113,8 @@ def is_nan(data):
 
     Parameters
     ----------
-    param : str
+    data : anytype
+        任何数据类型
 
     Returns
     ----------
@@ -79,8 +146,10 @@ def is_type(data, typ):
 
     Parameters
     ----------
-    param : str
-
+    data : anydata
+        任何数据
+    typ ： anytype
+        需要确认的数据类型
     Returns
     ----------
     """

@@ -22,6 +22,30 @@ import time
 from collections import Counter
 
 
+def is_number(data):
+    """is_number方法用于判断是否为数字
+
+    Parameters
+    ----------
+    data :
+        任意数据
+    Returns
+    ----------
+    """
+    try:
+        float(data)
+        return True
+    except ValueError:
+        pass
+
+    try:
+        import unicodedata
+        unicodedata.numeric(data)
+        return True
+    except (TypeError, ValueError):
+        pass
+    return False
+
 def type_assert(*ty_args, **ty_kwargs):
     """type_assert方法用于强制确认输入格式
 

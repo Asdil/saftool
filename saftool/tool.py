@@ -19,6 +19,8 @@ import gzip
 import math
 import datetime
 import time
+import pickle
+import base64
 from collections import Counter
 
 
@@ -1084,3 +1086,34 @@ def load_yaml(path, encoding='UTF-8'):
         with open(path, 'r') as f:
             config = yaml.load(f.read())
     return config
+
+
+def to_byte(data):
+    """to_byte方法用于转成字节
+
+    Parameters
+    ----------
+    data : object
+        任何对象数据
+
+    Returns
+    ----------
+    """
+    data = base64.b64encode(pickle.dumps(data)).decode("ascii")
+    return data
+
+
+def from_byte(data):
+    """from_byte方法用于还原byte数据
+
+    Parameters
+    ----------
+    data : byte
+        byte数据
+
+    Returns
+    ----------
+    """
+    data = base64.b64decode(data)
+    data = pickle.loads(data)
+    return data

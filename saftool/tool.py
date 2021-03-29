@@ -48,6 +48,7 @@ def is_number(data):
         pass
     return False
 
+
 def type_assert(*ty_args, **ty_kwargs):
     """type_assert方法用于强制确认输入格式
 
@@ -1089,13 +1090,12 @@ def load_yaml(path, encoding='UTF-8'):
 
 
 def to_byte(data):
-    """to_byte方法用于转成字节
+    """to_byte方法用于将对象转换为字节
 
     Parameters
     ----------
     data : object
-        任何对象数据
-
+        任意对象
     Returns
     ----------
     """
@@ -1104,12 +1104,11 @@ def to_byte(data):
 
 
 def from_byte(data):
-    """from_byte方法用于还原byte数据
+    """from_byte方法用于将字节对象还原
 
     Parameters
     ----------
-    data : byte
-        byte数据
+    param : str
 
     Returns
     ----------

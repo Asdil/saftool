@@ -21,7 +21,60 @@ import datetime
 import time
 import pickle
 import base64
+import importlib.machinery
 from collections import Counter
+
+
+def load_py_func(py_name, func_name='pipeline', py_dir='./'):
+    """load_py方法用于动态加载py文件
+    这加载的是指定的python文件函数
+
+    Parameters
+    ----------
+    py_name : str
+        py文件名称
+    func_name : str
+        函数名称 默认为 pipeline
+    py_dir : str
+        py文件路径
+    Returns
+    ----------
+    """
+    if '.py' != py_name[-3:]:
+        py_name = py_name + '.py'
+    py_dir = path_join(py_dir, py_name)
+    # import py文件
+    try:
+        # import py文件
+        module = importlib.machinery.SourceFileLoader(py_name, py_dir).load_module()
+        func = getattr(module, func_name)
+    except:
+        raise ValueError(f'{py_name} 不存在, 或者没有{func_name} 函数')
+    return func
+
+
+def load_py(py_name, py_dir='./'):
+    """load_py方法用于动态加载py文件
+
+    Parameters
+    ----------
+    py_name : str
+        py文件名称
+    py_dir : str
+        py文件所在的文件夹
+
+    Returns
+    ----------
+    """
+    if '.py' != py_name[-3:]:
+        py_name = py_name + '.py'
+    py_dir = path_join(py_dir, py_name)
+    try:
+        # import py文件
+        module = importlib.machinery.SourceFileLoader(py_name, py_dir).load_module()
+    except:
+        raise ValueError(f'{py_name} 不存在')
+    return module
 
 
 def is_number(data):

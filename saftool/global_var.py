@@ -3,7 +3,7 @@
 -------------------------------------------------
    File Name：     global_var
    Description :
-   Author :        艾登科技 Asdil
+   Author :        Asdil
    date：          2020/11/5
 -------------------------------------------------
    Change Activity:

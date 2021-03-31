@@ -152,9 +152,9 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
     else:
         for _file in files:
             if is_file(_file):
-                tool.cutFile(_file, dstfile)
+                tool.cut_file(_file, dstfile)
             else:
-                _, _, _, name = tool.splitPath(_file)
+                _, _, _, name = tool.split_path(_file)
                 shutil.move(_file, dstfile + f'/{name}')
                 print(f'copy {_file} -> dstfile/{name}')
 

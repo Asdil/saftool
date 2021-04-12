@@ -300,6 +300,7 @@ def path_join(path1, path2):
     return path1 + path2
 
 
+import os
 def get_files(path, extension=None, exclude=None, include=None):
     """get_files方法用于获取目录文件
 
@@ -320,7 +321,7 @@ def get_files(path, extension=None, exclude=None, include=None):
     ret = os.listdir(path)
     if extension:
         length = -len(extension)
-        ret = [path_join(path, each) for each in os.listdir(path) if each[length:] == extension]
+        ret = list(filter(lambda x: x[length:] == extension, ret))
         if not ret:
             return []
     if exclude:
@@ -331,6 +332,7 @@ def get_files(path, extension=None, exclude=None, include=None):
         ret = list(filter(lambda x: include in x, ret))
         if not ret:
             return []
+    ret = [path_join(path, each) for each in ret]
     return ret
 
 

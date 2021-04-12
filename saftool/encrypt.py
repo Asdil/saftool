@@ -12,6 +12,7 @@
 """
 __author__ = 'Asdil'
 import base64
+import pickle
 
 
 def base_encrypt(data):
@@ -45,3 +46,32 @@ def base_decrypt(data):
     decrypt_data = base64.b64decode(data)
     decrypt_data = str(decrypt_data, encoding="utf8")
     return decrypt_data
+
+
+def encode(data):
+    """to_byte方法用于将对象转换为字节
+
+    Parameters
+    ----------
+    data : object
+        任意对象
+    Returns
+    ----------
+    """
+    data = base64.b64encode(pickle.dumps(data)).decode("ascii")
+    return data
+
+
+def decode(data):
+    """from_byte方法用于将字节对象还原
+
+    Parameters
+    ----------
+    param : str
+
+    Returns
+    ----------
+    """
+    data = base64.b64decode(data)
+    data = pickle.loads(data)
+    return data

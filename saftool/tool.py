@@ -13,6 +13,7 @@
 __author__ = 'Asdil'
 
 import os
+import ast
 import subprocess
 import shutil
 import gzip
@@ -23,6 +24,24 @@ import pickle
 import base64
 import importlib.machinery
 from collections import Counter
+
+
+def safe_eval(string):
+    """方法用于
+
+    Parameters
+    ----------
+    string : str
+        需要转换的字符串
+
+    Returns
+    ----------
+    """
+    try:
+        ret = ast.literal_eval(string)
+    except:
+        raise ValueError(f"""错误! 无法转化语句: {string} """)
+    return ret
 
 
 def load_py_func(py_name, func_name='pipeline', py_dir='./'):
@@ -1140,32 +1159,3 @@ def load_yaml(path, encoding='UTF-8'):
         with open(path, 'r') as f:
             config = yaml.load(f.read())
     return config
-
-
-def to_byte(data):
-    """to_byte方法用于将对象转换为字节
-
-    Parameters
-    ----------
-    data : object
-        任意对象
-    Returns
-    ----------
-    """
-    data = base64.b64encode(pickle.dumps(data)).decode("ascii")
-    return data
-
-
-def from_byte(data):
-    """from_byte方法用于将字节对象还原
-
-    Parameters
-    ----------
-    param : str
-
-    Returns
-    ----------
-    """
-    data = base64.b64decode(data)
-    data = pickle.loads(data)
-    return data

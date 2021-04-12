@@ -51,7 +51,6 @@ def load(file_path):
     """
     assert fo.is_exist(file_path), f'{file_path} 文件不存在!'
     obj = joblib.load(file_path)
-
     return obj
 
 

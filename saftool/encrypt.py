@@ -67,8 +67,8 @@ def decode(data):
 
     Parameters
     ----------
-    param : str
-
+    data : bytearray
+        字节数据
     Returns
     ----------
     """

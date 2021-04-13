@@ -122,3 +122,23 @@ def load_memmap(path):
     """
     memmap_data = joblib.load(path, mmap_mode='r+')
     return memmap_data
+
+
+def dump_tmp(py_object, file_name):
+    """dump_tmp方法用于新建临时文件夹存储数据
+
+    Parameters
+    ----------
+    py_object : object
+        数据对象
+    file_name : str
+        文件名
+    Returns
+    ----------
+    """
+    tmp_folder = tempfile.mkdtemp()
+    tmp_path = tool.path_join(tmp_folder, file_name)
+    if fo.is_exist(tmp_path):  # 若存在则删除
+        fo.del_file(tmp_path)
+    _ = joblib.dump(py_object, tmp_path)
+    return tmp_path

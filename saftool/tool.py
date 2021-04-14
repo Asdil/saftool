@@ -20,10 +20,20 @@ import gzip
 import math
 import datetime
 import time
-import pickle
-import base64
 import importlib.machinery
 from collections import Counter
+from tqdm import tqdm
+
+
+def bar(data):
+    """
+    进度条
+    :param data: 列表 字典 迭代器
+    :return:
+    """
+    if isinstance(data, int):
+        return tqdm(range(data))
+    return tqdm(data)
 
 
 def safe_eval(string):

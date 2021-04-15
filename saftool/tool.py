@@ -310,7 +310,6 @@ def path_join(path1, path2):
     return path1 + path2
 
 
-import os
 def get_files(path, extension=None, exclude=None, include=None):
     """get_files方法用于获取目录文件
 

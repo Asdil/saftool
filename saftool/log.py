@@ -35,7 +35,7 @@ def simple_init(level='INFO', log_path=None):
         handler = logging.FileHandler(log_path)
         handler.setLevel(level)
         # create a logging format
-        formatter = logging.Formatter('%(asctime)s | %(levelname)s | %(filename)s:%(funcName)s:%(lineno)s - %(message)s')
+        formatter = logging.Formatter('%(asctime)s | %(levelname)s | pid:%(process)d |%(filename)s:%(funcName)s:%(lineno)s - %(message)s')
         handler.setFormatter(formatter)
 
     # add the handlers to the logger

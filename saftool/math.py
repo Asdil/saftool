@@ -43,3 +43,24 @@ def random_select(a, num, replace=False):
     for i in indexs:
         ret.append(deepcopy(a[i]))
     return ret
+
+
+def max_min_index(indexes, values, typ='min'):
+    """max_min_index方法用于查找最大最小索引的位置
+
+    Parameters
+    ----------
+    indexes : list
+        索引列表
+    values : list
+        值列表
+
+    Returns
+    ----------
+    """
+    if typ == 'min':
+        i = np.argmin(values)
+        return indexes[i]
+    else:
+        i = np.argmax(values)
+        return indexes[i]

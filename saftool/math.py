@@ -54,6 +54,8 @@ def max_min_index(indexes, values, typ='min'):
         索引列表
     values : list
         值列表
+    typ : str
+        min 或者 max
 
     Returns
     ----------

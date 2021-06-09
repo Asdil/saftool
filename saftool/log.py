@@ -14,6 +14,7 @@ __author__ = 'Asdil'
 import logging
 from logging.handlers import RotatingFileHandler
 
+
 def simple_init(level='INFO', log_path=None, rotation=1, format_type=0):
     """add方法用于新建一个log
 

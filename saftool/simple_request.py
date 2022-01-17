@@ -34,3 +34,20 @@ def post(url, data, header=None):
                         headers=header)
     ret = ret.json()
     return ret
+
+
+def get(url, headers={}, data={}):
+    """get方法用于get数据
+    Parameters
+    ----------
+    url : str
+        url地址
+    data : dict
+        post data数据
+    headers : dict
+        post header 数据
+    Returns
+    ----------
+    """
+    response = requests.request("GET", url, headers=headers, data=data)
+    return json.loads(response.text)

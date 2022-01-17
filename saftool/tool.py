@@ -18,8 +18,6 @@ import subprocess
 import shutil
 import gzip
 import math
-import datetime
-import time
 import importlib.machinery
 from collections import Counter
 from tqdm import tqdm
@@ -131,44 +129,6 @@ def is_number(data):
     return False
 
 
-def type_assert(*ty_args, **ty_kwargs):
-    """type_assert方法用于强制确认输入格式
-
-    @type_assert(int, b=str)
-    f(a, b)
-
-    Parameters
-    ----------
-    Returns
-    ----------
-    """
-    from inspect import signature
-    from functools import wraps
-
-    def decorate(func):
-        # If in optimized mode, disable type checking
-        if not __debug__:
-            return func
-
-        # Map function argument names to supplied types
-        sig = signature(func)
-        bound_types = sig.bind_partial(*ty_args, **ty_kwargs).arguments
-
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            bound_values = sig.bind(*args, **kwargs)
-            # Enforce type assertions across supplied arguments
-            for name, value in bound_values.arguments.items():
-                if name in bound_types:
-                    if not isinstance(value, bound_types[name]):
-                        raise TypeError(
-                            'Argument {} must be {}'.format(
-                                name, bound_types[name]))
-            return func(*args, **kwargs)
-        return wrapper
-    return decorate
-
-
 def bins_by_step(start, end, step):
     """bins_by_step方法用于等距分箱
 
@@ -217,19 +177,24 @@ def counter(data, n=None):
     return ret
 
 
-def is_nan(data):
+def is_nan(data, is_str=False):
     """is_nan方法用于判断是不是空值
 
     Parameters
     ----------
     data : anytype
         任何数据类型
-
+    is_str : bool
+        是否需要考虑字符型
     Returns
     ----------
     """
     if data is None:
         return True
+    if is_str:
+        if type(data) is str:
+            if data.lower() in {'none', 'nan'}:
+                return True
     try:
         return math.isnan(data)
     except:
@@ -944,25 +909,6 @@ def merge_commelement_list(lsts):
             results.append(common)
         sets = results
     return sets
-
-
-def runtime(func):
-    """
-    运行时间的装饰器
-    :param : python function
-    :return:
-    """
-    def wrapper(*args, **kwargs):
-        start_now = datetime.now()
-        start_time = time.time()
-        ret = func(*args, **kwargs)
-        end_time = time.time()
-        end_now = datetime.now()
-        print('time时间:%s' % end_time-start_time)
-        print(
-            'datetime起始时间:%s 结束时间:%s, 一共用时%s' % (start_now, end_now, end_now-start_now))
-        return ret
-    return wrapper
 
 
 def flatten(data):

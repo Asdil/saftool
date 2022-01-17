@@ -157,39 +157,3 @@ def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
                 _, _, _, name = tool.split_path(_file)
                 shutil.move(_file, dstfile + f'/{name}')
                 print(f'copy {_file} -> dstfile/{name}')
-
-
-def cut_all_files(srcfile, dstfile, key=None, isreplace=False):
-    """
-    拷贝目录下所有文件
-    :param srcfile:
-    :param dstfile:
-    :param key:
-    :param isreplace:
-    :return:
-    """
-    if key is None:
-        files = tool.get_files(srcfile)
-    else:
-        files = tool.get_files(srcfile, extension=key)
-    if isreplace:
-        for _file in files:
-            if is_file(_file):
-                _, _, _, name = tool.split_path(_file)
-                if is_exist(_file):
-                    del_file(tool.path_join(dstfile, name))
-                tool.cut_file(_file, dstfile)
-            else:
-                _, _, _, name = tool.split_path(_file)
-                if is_exist(_file):
-                    del_dir(tool.path_join(dstfile, name))
-                shutil.move(_file, dstfile + f'/{name}')
-                print(f'cut {_file} -> dstfile/{name}')
-    else:
-        for _file in files:
-            if is_file(_file):
-                tool.cut_file(_file, dstfile)
-            else:
-                _, _, _, name = tool.split_path(_file)
-                shutil.move(_file, dstfile + f'/{name}')
-                print(f'cut {_file} -> dstfile/{name}')

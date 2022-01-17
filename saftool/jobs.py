@@ -89,19 +89,22 @@ def parallel(args, func, njobs, backend=0, verbose=1):
     return ret
 
 
-def memmap(data):
+def memmap(data, path='/tmp/'):
     """memmap方法用于参数共享内存的变量
 
     Parameters
     ----------
     data : object
         python变量
+    path : str
+        文件路径
     Returns
     ----------
     内存共享的变量
     """
-    tmp_folder = tempfile.mkdtemp()
-    tmp_path = tool.path_join(tmp_folder, 'joblib.mmap')
+    # tmp_folder = tempfile.mkdtemp()
+    # tmp_path = tool.path_join(tmp_folder, 'joblib.mmap')
+    tmp_path = tool.path_join(path, 'joblib.mmap')
     if fo.is_exist(tmp_path):  # 若存在则删除
         fo.del_file(tmp_path)
     _ = joblib.dump(data, tmp_path)

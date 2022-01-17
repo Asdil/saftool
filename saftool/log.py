@@ -32,9 +32,9 @@ def simple_init(level='INFO', log_path=None, rotation=1, format_type=0):
     ----------
     """
     # 日志详细程度
-    formats = {0:'%(asctime)s | %(levelname)s | pid:%(process)d |%(filename)s:%(funcName)s:%(lineno)s - %(message)s',
-               1:'%(asctime)s | %(levelname)s |%(filename)s:%(funcName)s:%(lineno)s - %(message)s',
-               2:'%(asctime)s |%(filename)s:%(funcName)s:%(lineno)s - %(message)s',
+    formats = {0: '%(asctime)s | %(levelname)s | pid:%(process)d |%(filename)s:%(funcName)s:%(lineno)s - %(message)s',
+               1: '%(asctime)s | %(levelname)s |%(filename)s:%(funcName)s:%(lineno)s - %(message)s',
+               2: '%(asctime)s |%(filename)s:%(funcName)s:%(lineno)s - %(message)s',
                }
     logger = logging.getLogger()
     level_dict = {'DEBUG': logging.DEBUG, 'INFO': logging.INFO, 'WARNING': logging.WARNING, 'ERROR': logging.ERROR}

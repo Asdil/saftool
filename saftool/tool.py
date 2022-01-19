@@ -3,7 +3,7 @@
 -------------------------------------------------
    File Name：     tool
    Description :
-   Author :        艾登科技 Asdil
+   Author :        Asdil
    date：          2020/9/30
 -------------------------------------------------
    Change Activity:
@@ -366,53 +366,11 @@ def split_path(path):
     :return:
     """
     assert isinstance(path, str)
+    if path[-1] == os.sep:
+        path = path[:-1]
     file_path, file_full_name = os.path.split(path)
     file_name, extension = os.path.splitext(file_full_name)
     return file_path, file_name, extension, file_full_name
-
-
-def copy_file(srcfile, dstfile):
-    """
-    复制文件
-    :param srcfile: 拷贝文件路径
-    :param dstfile: 目标路径
-    :return:
-    """
-
-    if not os.path.isfile(srcfile):
-        print("%s not exist!" % srcfile)
-        assert os.path.isfile(srcfile) is True
-    else:
-        _, _, _, name = split_path(srcfile)
-        if dstfile[-len(name):] == name:
-            fpath, fname = os.path.split(dstfile)  # 分离文件名和路径
-        else:
-            fpath = dstfile
-
-        if not os.path.exists(fpath):
-            os.makedirs(fpath)  # 创建路径
-
-        dstfile = path_join(fpath, name)
-        shutil.copyfile(srcfile, dstfile)  # 复制文件
-        print("copy %s -> %s" % (srcfile, dstfile))
-
-
-def cut_file(srcfile, dstfile):
-    """
-    剪切文件
-    :param srcfile: 剪切文件路径
-    :param dstfile: 目标路径
-    :return:
-    """
-    if not os.path.isfile(srcfile):
-        print("%s not exist!" % srcfile)
-        assert os.path.isfile(srcfile) is True
-    else:
-        fpath, fname = os.path.split(dstfile)    # 分离文件名和路径
-        if not os.path.exists(fpath):
-            os.makedirs(fpath)                 # 创建路径
-        shutil.move(srcfile, dstfile)          # 复制文件
-        print("cut %s -> %s" % (srcfile, dstfile))
 
 
 def inter_set(l1, l2):
@@ -702,147 +660,6 @@ def until(y=None, m=None, d=None, H=None, M=None, S=None, logger=None):
             if logger is not None:
                 logger.info('错误！ 定时任务没有指定时间')
                 assert 3 == 4
-
-
-def zip_file(file_path, output=None, rename=None, typ=3):
-    """
-    压缩文件
-    :param file_path:  文件绝对路径
-    :param output:     是否输入到其它文件夹
-    :return:           True, False
-    """
-    import zipfile
-    # 拆分成文件路径，文件
-    path, name, _, name_extension = split_path(file_path)
-    if rename is None:
-        rename = name
-
-    if output is None:
-        output = path
-    azip = zipfile.ZipFile(path_join(output, rename + '.zip'), 'w')
-    # 写入zip
-    if typ == 1:
-        azip.write(file_path, name_extension, compress_type=zipfile.ZIP_LZMA)
-
-    elif typ == 2:
-        azip.write(file_path, name_extension, compress_type=zipfile.ZIP_BZIP2)
-    else:
-        azip.write(
-            file_path,
-            name_extension,
-            compress_type=zipfile.ZIP_DEFLATED)
-    azip.close()
-    print("{} -> {}".format(file_path, path_join(output, rename + '.zip')))
-
-
-def unzip_file(file_path, output=None):
-    """
-    解压文件
-    :param file_path:  zip文件完整路径
-    :return:
-    """
-    import zipfile
-    path, name, _, name_extension = split_path(file_path)
-    azip = zipfile.ZipFile(file_path)
-    if output is None:
-        azip.extractall(path=output)
-        output = path_join(path, name)
-    else:
-        azip.extractall(path=output)
-        output = path_join(output, name)
-    azip.close()
-    print("{} ->> {}".format(file_path, output))
-
-
-def zip_dir(file_dir, output=None, rename=None):
-    """
-    压缩文件夹
-    :param file_dir:  文件夹路径
-    :param output:    输出路径
-    :param rename:    重命名
-    :return:
-    """
-    if rename is None:
-        tmp = file_dir.strip('/')
-        dirs = tmp.strip('/').split('/')
-        rename = dirs[-1]
-    # 压缩文件夹
-    if output is None:
-        output = '/' + '/'.join(dirs[:-1])
-        print(path_join(output, rename))
-        shutil.make_archive(path_join(output, rename), 'zip', file_dir)
-    else:
-        shutil.make_archive(path_join(output, rename), 'zip', file_dir)
-    print("{} -> {}".format(file_dir, path_join(output, rename) + '.zip'))
-
-
-def unzip_dir(file_dir, output=None, rename=None):
-    """
-    解压文件夹
-    :param file_dir:  解压文件夹
-    :return:
-    """
-    path, name, _, _ = split_path(file_dir)
-    if output is None:
-        output = path
-    if rename is None:
-        rename = name
-    output = path_join(output, rename)
-
-    shutil.unpack_archive(file_dir, output)
-    print('{} ->> {}'.format(file_dir, output))
-
-
-def gzip_file(file_path, output=None, rename=None, del_file=False):
-    """
-    gzip文件
-    :param file_path: 文件路径
-    :param output:    输出路径
-    :param rename:    重命名
-    :param del_file:  是否删除源文件
-    :return:
-    """
-    assert os.path.exists(file_path)
-    path, name, _, name_extension = split_path(file_path)
-    if rename is None:
-        rename = name
-    if output is None:
-        output = path
-    rename += '.gz'
-    out_path = path_join(output, rename)
-    with open(file_path, 'rb') as f_in:
-        with gzip.open(out_path, 'wb') as f_out:
-            shutil.copyfileobj(f_in, f_out)
-    if del_file:
-        os.remove(file_path)
-    print('{} ->> {}'.format(file_path, out_path))
-
-
-def gunzip_file(file_path, output=None, rename=None, del_file=False):
-    """
-    解压gz文件
-    :param file_path: 文件路径
-    :param output:    输出路径
-    :param rename:    重命名
-    :param del_file:  是否删除源文件
-    :return:
-    """
-    assert os.path.exists(file_path)
-    path, name, _, name_extension = split_path(file_path)
-    if rename is None:
-        rename = name
-    if output is None:
-        output = path
-    if rename[-3:] == '.gz':
-        rename = rename[:-3]
-    out_path = path_join(output, rename)
-    with gzip.open(file_path, 'rb') as f_in:
-        data = f_in.read().decode('utf8')
-        with open(out_path, 'w') as f_out:
-            f_out.write(data)
-    if del_file:
-        os.remove(file_path)
-    print('{} ->> {}'.format(file_path, out_path))
 
 
 def read(path, sep='\n', encoding='UTF-8'):

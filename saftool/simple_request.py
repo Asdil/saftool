@@ -3,7 +3,7 @@
 -------------------------------------------------
    File Name：     simple_request
    Description :
-   Author :        艾登科技 Asdil
+   Author :        Asdil
    date：          2020/10/29
 -------------------------------------------------
    Change Activity:

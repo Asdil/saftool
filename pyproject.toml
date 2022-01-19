@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "saftool"
-version = "0.2.5"
+version = "0.2.6"
 description = ""
 authors = ["Asdil Fibrizo <jpl4job@126.com>"]
 readme = "README.md"
@@ -15,6 +15,7 @@ PyYAML = "^5.3.1"
 requests = "^2.24.0"
 joblib = "^1.0.1"
 tqdm = "^4.59.0"
+py7zr = "^0.17.2"
 
 [tool.poetry.dev-dependencies]
 

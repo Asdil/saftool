@@ -2,7 +2,7 @@
 """
 -------------------------------------------------
    File Name：     global_var
-   Description :
+   Description :   用于全局变量
    Author :        Asdil
    date：          2020/11/5
 -------------------------------------------------
@@ -56,8 +56,10 @@ def set(key, value):
     """
     if type(key) is dict:
         for k in key:
+            del __global_dict[k]  # 先删除
             __global_dict[k] = key[k]
     else:
+        del __global_dict[key]  # 先删除
         __global_dict[key] = value
 
 

@@ -14,6 +14,7 @@ __author__ = 'Asdil'
 
 import os
 import ast
+import sys
 import subprocess
 import shutil
 import gzip
@@ -933,3 +934,24 @@ def load_yaml(path, encoding='UTF-8'):
         with open(path, 'r') as f:
             config = yaml.load(f.read())
     return config
+
+
+def show_memory(data, suffix='B'):
+    """show_memory方法用于查看变量占用内存多少
+
+    Parameters
+    ----------
+    data: object
+        数据对象
+    suffix: str
+        后缀
+        
+    Returns
+    ----------
+    """
+    num = sys.getsizeof(data)
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
+        if abs(num) < 1024.0:
+            return "%3.1f %s%s" % (num, unit, suffix)
+        num /= 1024.0
+    return "%.1f %s%s" % (num, 'Yi', suffix)

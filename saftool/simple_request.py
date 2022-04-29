@@ -108,7 +108,7 @@ def post2(url, data, header=None):
     Returns
     ----------
     """
-    header = header if header else {'Content-Type': 'application/x-www-form-urlencoded'}
+    header = header if header else {'Content-Type': 'application/json'}
     ret = requests.post(url=url,
                         data=json.dumps(data),
                         headers=header)

@@ -12,6 +12,7 @@
 """
 __author__ = 'Asdil'
 
+
 import os
 import ast
 import sys
@@ -49,7 +50,10 @@ def safe_eval(string):
     try:
         ret = ast.literal_eval(string)
     except:
-        raise ValueError(f"""错误! 无法转化语句: {string} """)
+        try:
+            ret = eval(ret)
+        except:
+            raise ValueError(f"""错误! 无法转化语句: {string} """)
     return ret
 
 
@@ -390,11 +394,14 @@ def inter_set(l1, l2):
 
 
 def inter_set_num(l1, l2):
-    """inter_set_num方法用于
+    """inter_set_num方法用于找交集数量
 
     Parameters
     ----------
-    param : str
+    l1 : list or set or dict
+        列表1
+    l2 : list or set or dict
+        列表2
 
     Returns
     ----------
@@ -408,11 +415,17 @@ def inter_set_num(l1, l2):
 
 
 def diff_set(l1, l2):
-    """
-    列表差集
-    :param l1:
-    :param l2:
-    :return:
+    """diff_set方法用于找差集
+
+    Parameters
+    ----------
+    l1 : list or set or dict
+        列表1
+    l2 : list or set or dict
+        列表2
+
+    Returns
+    ----------
     """
     assert type(l1) in {list, set, dict}
     assert type(l2) in {list, set, dict}
@@ -427,7 +440,10 @@ def diff_set_num(l1, l2):
 
     Parameters
     ----------
-    param : str
+    l1 : list or set or dict
+        列表1
+    l2 : list or set or dict
+        列表2
 
     Returns
     ----------
@@ -441,11 +457,17 @@ def diff_set_num(l1, l2):
 
 
 def union_set(l1, l2):
-    """
-    列表并集
-    :param l1:
-    :param l2:
-    :return:
+    """union_set方法用于并集
+
+    Parameters
+    ----------
+    l1 : list or set or dict
+        列表1
+    l2 : list or set or dict
+        列表2
+
+    Returns
+    ----------
     """
     assert type(l1) in {list, set, dict}
     assert type(l2) in {list, set, dict}
@@ -456,11 +478,17 @@ def union_set(l1, l2):
 
 
 def union_set_num(l1, l2):
-    """
-    列表并集元素数量
-    :param l1:
-    :param l2:
-    :return:
+    """union_set_num方法用于并集数量
+
+    Parameters
+    ----------
+    l1 : list or set or dict
+        列表1
+    l2 : list or set or dict
+        列表2
+
+    Returns
+    ----------
     """
     assert type(l1) in {list, set, dict}
     assert type(l2) in {list, set, dict}
@@ -471,11 +499,15 @@ def union_set_num(l1, l2):
 
 
 def create_dir(path):
-    """
-    检查文件夹是否存在，如果存在则删除重新创建
-    :param path:    文件夹路径
-    :param type:    文件夹不存在是否报错  True报错， False不报错,并创建文件夹
-    :return:
+    """create_dir方法用于检查文件夹是否存在，如果存在则删除重新创建
+
+        Parameters
+        ----------
+        path : str
+            文件夹路径
+
+        Returns
+        ----------
     """
     if not os.path.exists(path):
         os.makedirs(path)
@@ -484,10 +516,15 @@ def create_dir(path):
 
 
 def del_dir(path):
-    """
-    删除目录
-    :param path:  路径
-    :return:
+    """del_dir方法用于删除目录
+
+        Parameters
+        ----------
+        path : str
+            文件夹路径
+
+        Returns
+        ----------
     """
     if os.path.exists(path):
         shutil.rmtree(path)
@@ -496,10 +533,15 @@ def del_dir(path):
 
 
 def del_file(path):
-    """
-    删除文件
-    :param path:  路径
-    :return:
+    """del_file方法用于删除文件
+
+        Parameters
+        ----------
+        path : str
+            文件夹路径
+
+        Returns
+        ----------
     """
     if os.path.exists(path):
         os.remove(path)
@@ -508,10 +550,15 @@ def del_file(path):
 
 
 def combin_dic(*args):
-    """
-    合并字典
-    :param args: 两个字典或多个
-    :return:
+    """combin_dic方法用于合并字典
+
+        Parameters
+        ----------
+        args : object
+            两个字典或多个
+
+        Returns
+        ----------
     """
     ret = {}
     if len(args) == 1:
@@ -528,11 +575,17 @@ def combin_dic(*args):
 
 
 def add_dic(dica, dicb):
-    """
-    字典累加
-    :param dica:   字典a
-    :param dicb:   字典b
-    :return:       字典累加
+    """add_dic方法用于字典累加
+
+        Parameters
+        ----------
+        dica : dict
+            字典a
+        dicb : dict
+            字典b
+
+        Returns
+        ----------
     """
     dic = {}
     for key in dica:
@@ -549,26 +602,43 @@ def add_dic(dica, dicb):
 
 
 def split_list(_list, slice):
-    """
-    拆分列表
-    :param _list:  列表
-    :param slice:  拆分块的大小
-    :return:       拆分后的列表
+    """split_list方法用于字典累加
+
+        Parameters
+        ----------
+        _list : dict
+            列表
+        slice : int
+            拆分块的大小
+
+        Returns
+        ----------
     """
     return [_list[i:i + slice] for i in range(0, len(_list), slice)]
 
 
 def until(y=None, m=None, d=None, H=None, M=None, S=None, logger=None):
-    """
-    定时任务
-    :param y:  年
-    :param m:  月
-    :param d:  日
-    :param H:  时
-    :param M:  分
-    :param S:  秒
-    :param logger: 日志
-    :return:
+    """until方法用于定时任务
+
+        Parameters
+        ----------
+        y : int
+            年
+        m : int
+            月
+        d : int
+            日
+        H : int
+            时
+        M : int
+            分
+        S : int
+            秒
+        logger : object
+            日志
+
+        Returns
+        ----------
     """
     import time
     import datetime
@@ -664,12 +734,18 @@ def until(y=None, m=None, d=None, H=None, M=None, S=None, logger=None):
 
 
 def read(path, sep='\n', encoding='UTF-8'):
-    """
-    按行读数据
-    :param path: 路径
-    :param sep:  分隔符
-    :param encoding: 编码
-    :return:
+    """read方法用于按行读数据
+
+        Parameters
+        ----------
+        path : str
+            路径
+        sep : str
+            分隔符
+        encoding : str
+            编码
+        Returns
+        ----------
     """
     try:
         with open(path, 'r', encoding=encoding) as f:
@@ -705,11 +781,16 @@ def write(data, path, sep='\n', encoding='UTF-8'):
 
 
 def merge_commelement_list(lsts):
+    """merge_commelement_list方法用于把公共元素的列表合并，返回合并后的结果list
+
+    Parameters
+    ----------
+    lsts : list
+        列表数据
+    Returns
+    ----------
     """
-    把公共元素的列表合并，返回合并后的结果list
-    :param lsts:
-    :return:
-    """
+
     sets = [set(lst) for lst in lsts if lst]
     merged = 1
     while merged:
@@ -889,51 +970,51 @@ def dict_to_list(_dict):
     return ret
 
 
-def write_yaml(data, path, encoding='UTF-8'):
-    """write_yaml方法用于写yaml配置文件
-
-    Parameters
-    ----------
-    data : dict
-        配置字典
-    path : str
-        保存路径
-    encoding : str
-        编码规则
-
-    Returns
-    ----------
-    """
-    import yaml
-    try:
-        with open(path, 'w', encoding=encoding) as yaml_file:
-            yaml.safe_dump(data, yaml_file)
-    except:
-        with open(path, 'w') as yaml_file:
-            yaml.safe_dump(data, yaml_file)
-
-
-def load_yaml(path, encoding='UTF-8'):
-    """read_yaml方法用于读取yaml文件
-
-    Parameters
-    ----------
-    path : str
-        yaml文件路径
-    encoding : str
-        编码规则
-
-    Returns
-    ----------
-    """
-    import yaml
-    try:
-        with open(path, 'r', encoding=encoding) as f:
-            config = yaml.load(f.read(), Loader=yaml.FullLoader)
-    except:
-        with open(path, 'r') as f:
-            config = yaml.load(f.read())
-    return config
+# def write_yaml(data, path, encoding='UTF-8'):
+#     """write_yaml方法用于写yaml配置文件
+#
+#     Parameters
+#     ----------
+#     data : dict
+#         配置字典
+#     path : str
+#         保存路径
+#     encoding : str
+#         编码规则
+#
+#     Returns
+#     ----------
+#     """
+#     import yaml
+#     try:
+#         with open(path, 'w', encoding=encoding) as yaml_file:
+#             yaml.safe_dump(data, yaml_file)
+#     except:
+#         with open(path, 'w') as yaml_file:
+#             yaml.safe_dump(data, yaml_file)
+#
+#
+# def load_yaml(path, encoding='UTF-8'):
+#     """read_yaml方法用于读取yaml文件
+#
+#     Parameters
+#     ----------
+#     path : str
+#         yaml文件路径
+#     encoding : str
+#         编码规则
+#
+#     Returns
+#     ----------
+#     """
+#     import yaml
+#     try:
+#         with open(path, 'r', encoding=encoding) as f:
+#             config = yaml.load(f.read(), Loader=yaml.FullLoader)
+#     except:
+#         with open(path, 'r') as f:
+#             config = yaml.load(f.read())
+#     return config
 
 
 def show_memory(data, suffix='B'):
@@ -955,3 +1036,9 @@ def show_memory(data, suffix='B'):
             return "%3.1f %s%s" % (num, unit, suffix)
         num /= 1024.0
     return "%.1f %s%s" % (num, 'Yi', suffix)
+
+
+def get_pid():
+    """get_pid方法用于当前进程id
+    """
+    return os.getpid()

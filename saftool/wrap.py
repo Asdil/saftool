@@ -11,8 +11,15 @@
 -------------------------------------------------
 """
 __author__ = 'Asdil'
-from datetime import datetime
+
 import time
+import functools
+from datetime import datetime
+from concurrent import futures
+from functools import lru_cache
+# 重复执行缓存@lru_cache
+
+executor = futures.ThreadPoolExecutor(1)
 
 
 def type_assert(*ty_args, **ty_kwargs):
@@ -54,10 +61,15 @@ def type_assert(*ty_args, **ty_kwargs):
 
 
 def runtime(func):
-    """
-    运行时间的装饰器
-    :param : python function
-    :return:
+    """runtime方法用于, 运行时间的装饰器
+
+    Parameters
+    ----------
+    func : function
+        函数对象
+
+    Returns
+    ----------
     """
     def wrapper(*args, **kwargs):
         start_now = datetime.now()
@@ -69,3 +81,58 @@ def runtime(func):
         return ret
     return wrapper
 
+
+def timeout(seconds):
+    """timeout方法用于设置超时
+
+    Parameters
+    ----------
+    seconds : int
+        秒数
+
+    Returns
+    ----------
+    """
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            future = executor.submit(func, *args, **kw)
+            return future.result(timeout=seconds)
+        return wrapper
+    return decorator
+
+
+class AllowCount:
+    """
+    allow_count类用于约束函数执行次数
+    """
+    def __init__(self, count):
+        """__init__(self):方法用于初始化
+
+        Parameters
+        ----------
+        count : int
+            最大执行次数
+
+        Returns
+        ----------
+        """
+        self.count = count
+        self.i = 0
+    def __call__(self, func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):
+            if self.i >= self.count:
+                return
+            self.i += 1
+            return func(*args, **kw)
+        return wrapper
+
+
+def helping():
+    """helping方法用于输出可用修饰器"""
+    print(' @type_assert(int, b=str) 强制定义输入种类')
+    print(' @runtime 运行时长')
+    print(' @timeout(seconds) 设置超时')
+    print(' @lru_cache() 多次执行缓存')
+    print(' @AllowCount(2) 强制定义函数可行性次数')

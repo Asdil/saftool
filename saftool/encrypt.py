@@ -32,7 +32,7 @@ def base_encrypt(data):
 
 
 def base_decrypt(data):
-    """base_decrypt方法用于
+    """base_decrypt方法用于base64解码
 
     Parameters
     ----------

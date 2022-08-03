@@ -15,7 +15,7 @@ import logging
 from logging.handlers import RotatingFileHandler
 
 
-def simple_init(level='INFO', log_path=None, rotation=1, format_type=0):
+def simple_init(log_path=None, level='INFO', rotation=1, format_type=0):
     """add方法用于新建一个log
 
     Parameters
@@ -40,6 +40,8 @@ def simple_init(level='INFO', log_path=None, rotation=1, format_type=0):
     level_dict = {'DEBUG': logging.DEBUG, 'INFO': logging.INFO, 'WARNING': logging.WARNING, 'ERROR': logging.ERROR}
     logger.setLevel(level_dict[level])
 
+    handler = None
+
     if log_path is not None:
         # create a file handler
         handler = RotatingFileHandler(filename=log_path, maxBytes=rotation * 1024 * 1024, encoding='utf-8')
@@ -49,5 +51,6 @@ def simple_init(level='INFO', log_path=None, rotation=1, format_type=0):
         handler.setFormatter(formatter)
 
     # add the handlers to the logger
-    logger.addHandler(handler)
+    if handler:
+        logger.addHandler(handler)
     return logger

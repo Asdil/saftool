@@ -2,12 +2,12 @@
 """
 -------------------------------------------------
    File Name：     cache
-   Description :
+   Description :   用于保存全局变量
    Author :        Asdil
    date：          2020/10/29
 -------------------------------------------------
    Change Activity:
-                   2020/10/29:
+                   2022/08/03:
 -------------------------------------------------
 """
 __author__ = 'Asdil'
@@ -62,4 +62,5 @@ class Cache:
             self.__setattr__(key, value)
 
 
-sys.modules[__name__] = Cache()  # 加入系统识别
+# 加入系统识别
+sys.modules[__name__] = Cache()

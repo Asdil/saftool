@@ -20,7 +20,7 @@ from saftool import tool
 
 
 def is_dir(path: str) -> bool:
-    """is_dir方法用于判断
+    """is_dir方法用于判断是否是文件夹
 
     Parameters
     ----------
@@ -33,7 +33,7 @@ def is_dir(path: str) -> bool:
 
 
 def is_file(path: str) -> bool:
-    """is_file方法用于是否是文件夹
+    """is_file方法用于是否是文件
 
     Parameters
     ----------
@@ -91,7 +91,7 @@ def del_dir(path: str) -> bool:
     flag = True
     try:
         shutil.rmtree(path)
-    except BaseException:
+    except:
         flag = False
     return flag
 
@@ -121,14 +121,14 @@ def del_all_files(path: str, key: [str, None] = None) -> bool:
     return True
 
 
-def copy_all_files(srcfile: str, dstfile: str, key: [str, None] = None, is_replace: bool = False) -> None:
+def copy_all_files(src_file: str, dst_file: str, key: [str, None] = None, is_replace: bool = False) -> None:
     """copy_all_files方法用于拷贝目录下所有文件
 
     Parameters
     ----------
-    srcfile : str
+    src_file : str
         文件夹路径
-    dstfile : str
+    dst_file : str
         目标文件夹路径
     key : str or None
         文件后缀
@@ -138,38 +138,38 @@ def copy_all_files(srcfile: str, dstfile: str, key: [str, None] = None, is_repla
     ----------
     """
     if key is None:
-        files = tool.get_files(srcfile)
+        files = tool.get_files(src_file)
     else:
-        files = tool.get_files(srcfile, extension=key)
+        files = tool.get_files(src_file, extension=key)
     if is_replace:
         for _file in files:
             if is_file(_file):
                 _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
-                    del_file(tool.path_join(dstfile, name))
-                tool.copy_file(_file, dstfile)
+                    del_file(tool.path_join(dst_file, name))
+                copy_file(_file, dst_file)
             else:
                 _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
-                    del_dir(tool.path_join(dstfile, name))
-                shutil.copytree(_file, dstfile + f'/{name}')
+                    del_dir(tool.path_join(dst_file, name))
+                shutil.copytree(_file, dst_file + f'/{name}')
     else:
         for _file in files:
             if is_file(_file):
-                tool.copy_file(_file, dstfile)
+                copy_file(_file, dst_file)
             else:
                 _, _, _, name = tool.split_path(_file)
-                shutil.copytree(_file, dstfile + f'/{name}')
+                shutil.copytree(_file, dst_file + f'/{name}')
 
 
-def cut_all_files(srcfile: str, dstfile: str, key: [str, None] = None, is_replace: bool = False) -> None:
+def cut_all_files(src_file: str, dst_file: str, key: [str, None] = None, is_replace: bool = False) -> None:
     """cut_all_files方法用于
 
     Parameters
     ----------
-    srcfile : str
+    src_file : str
         文件夹路径
-    dstfile : str
+    dst_file : str
         目标文件夹路径
     key : str or None
         文件后缀
@@ -179,74 +179,74 @@ def cut_all_files(srcfile: str, dstfile: str, key: [str, None] = None, is_replac
     ----------
     """
     if key is None:
-        files = tool.get_files(srcfile)
+        files = tool.get_files(src_file)
     else:
-        files = tool.get_files(srcfile, extension=key)
+        files = tool.get_files(src_file, extension=key)
     if is_replace:
         for _file in files:
             if is_file(_file):
                 _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
-                    del_file(tool.path_join(dstfile, name))
-                tool.cut_file(_file, dstfile)
+                    del_file(tool.path_join(dst_file, name))
+                cut_file(_file, dst_file)
             else:
                 _, _, _, name = tool.split_path(_file)
                 if is_exist(_file):
-                    del_dir(tool.path_join(dstfile, name))
-                shutil.move(_file, dstfile + f'/{name}')
-                print(f'copy {_file} -> dstfile/{name}')
+                    del_dir(tool.path_join(dst_file, name))
+                shutil.move(_file, dst_file + f'/{name}')
+                print(f'copy {_file} -> dst_file/{name}')
     else:
         for _file in files:
             if is_file(_file):
-                tool.cut_file(_file, dstfile)
+                cut_file(_file, dst_file)
             else:
                 _, _, _, name = tool.split_path(_file)
-                shutil.move(_file, dstfile + f'/{name}')
-                print(f'copy {_file} ->> dstfile/{name}')
+                shutil.move(_file, dst_file + f'/{name}')
+                print(f'copy {_file} ->> dst_file/{name}')
 
 
-def copy_file(srcfile: str, dstfile:str) -> None:
+def copy_file(src_file: str, dst_file:str) -> None:
     """
     复制文件
-    :param srcfile: 拷贝文件路径
-    :param dstfile: 目标路径
+    :param src_file: 拷贝文件路径
+    :param dst_file: 目标路径
     :return:
     """
 
-    if not os.path.isfile(srcfile):
-        print("%s not exist!" % srcfile)
-        assert os.path.isfile(srcfile) is True
+    if not os.path.isfile(src_file):
+        print("%s not exist!" % src_file)
+        assert os.path.isfile(src_file) is True
     else:
-        _, _, _, name = tool.split_path(srcfile)
-        if dstfile[-len(name):] == name:
-            fpath, fname = os.path.split(dstfile)  # 分离文件名和路径
+        _, _, _, name = tool.split_path(src_file)
+        if dst_file[-len(name):] == name:
+            fpath, fname = os.path.split(dst_file)  # 分离文件名和路径
         else:
-            fpath = dstfile
+            fpath = dst_file
 
         if not os.path.exists(fpath):
             os.makedirs(fpath)  # 创建路径
 
-        dstfile = tool.path_join(fpath, name)
-        shutil.copyfile(srcfile, dstfile)  # 复制文件
-        print("copy %s -> %s" % (srcfile, dstfile))
+        dst_file = tool.path_join(fpath, name)
+        shutil.copyfile(src_file, dst_file)  # 复制文件
+        print("copy %s -> %s" % (src_file, dst_file))
 
 
-def cut_file(srcfile:str, dstfile:str) -> None:
+def cut_file(src_file:str, dst_file:str) -> None:
     """
     剪切文件
-    :param srcfile: 剪切文件路径
-    :param dstfile: 目标路径
+    :param src_file: 剪切文件路径
+    :param dst_file: 目标路径
     :return:
     """
-    if not os.path.isfile(srcfile):
-        print("%s not exist!" % srcfile)
-        assert os.path.isfile(srcfile) is True
+    if not os.path.isfile(src_file):
+        print("%s not exist!" % src_file)
+        assert os.path.isfile(src_file) is True
     else:
-        fpath, fname = os.path.split(dstfile)    # 分离文件名和路径
+        fpath, fname = os.path.split(dst_file)    # 分离文件名和路径
         if not os.path.exists(fpath):
             os.makedirs(fpath)                 # 创建路径
-        shutil.move(srcfile, dstfile)          # 复制文件
-        print("cut %s -> %s" % (srcfile, dstfile))
+        shutil.move(src_file, dst_file)          # 复制文件
+        print("cut %s -> %s" % (src_file, dst_file))
 
 
 def zip_file(file_path: str, out_dir: [str, None] = None, rename: str = None,
@@ -457,7 +457,7 @@ def unzip_dir(file_dir: str, out_dir: [str, None] = None, rename: [str, None] = 
 
 def zip_7z(file_dir: str, out_dir: [str, None] = None, rename: [str, None] = None,
            pwd: [str, None] = None, speed: int = 3, is_del: bool = False):
-    """zip_7z方法用于
+    """zip_7z方法用于7zip压缩文件
 
     Parameters
     ----------
@@ -488,7 +488,8 @@ def zip_7z(file_dir: str, out_dir: [str, None] = None, rename: [str, None] = Non
         7: [{'id': py7zr.FILTER_LZMA}]
     }
     if pwd:
-        algorithms[speed].append({'id': py7zr.FILTER_CRYPTO_AES256_SHA256})
+        parm = {'id': py7zr.FILTER_CRYPTO_AES256_SHA256}
+        algorithms[speed].append(parm)
 
     dir, name, _, name_extension = tool.split_path(file_dir)
     if rename is None:
@@ -497,7 +498,7 @@ def zip_7z(file_dir: str, out_dir: [str, None] = None, rename: [str, None] = Non
         out_dir = dir
     out_path = tool.path_join(out_dir, rename+'.7z')
     with py7zr.SevenZipFile(out_path, 'w', filters=algorithms[speed], password=pwd) as archive:
-        archive.writeall(file_dir, name)
+        archive.writeall(file_dir, name_extension)
     if is_del:
         if is_file(file_dir):
             del_file(file_dir)
@@ -508,7 +509,7 @@ def zip_7z(file_dir: str, out_dir: [str, None] = None, rename: [str, None] = Non
 
 
 def unzip_7z(file_dir: str, out_dir: [str, None] = None, pwd: [str, None] = None, is_del: bool = False):
-    """unzip_7z方法用于
+    """unzip_7z方法用于解压7zip
 
     Parameters
     ----------
@@ -537,8 +538,24 @@ def unzip_7z(file_dir: str, out_dir: [str, None] = None, pwd: [str, None] = None
     return True
 
 
+def create_dir(path):
+    """create_dir方法用于检查文件夹是否存在，如果存在则删除重新创建
+
+        Parameters
+        ----------
+        path : str
+            文件夹路径
+
+        Returns
+        ----------
+    """
+    if not os.path.exists(path):
+        os.makedirs(path)
+        return True
+    return False
+
+
 if __name__ == '__main__':
-    # zip_7z('/home/asdil/Documents/316968460', speed=0, rename='xxx', pwd='1111', is_del=False)
-    unzip_7z('/home/asdil/Documents/xxx.7z', pwd='1111')
+    unzip_dir('/home/asdil/Documents/python/code/1/1.zip')
 
 

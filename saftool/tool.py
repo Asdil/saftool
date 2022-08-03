@@ -16,20 +16,23 @@ __author__ = 'Asdil'
 import os
 import ast
 import sys
-import subprocess
-import shutil
-import gzip
 import math
+import shutil
+import subprocess
+from tqdm import tqdm
 import importlib.machinery
 from collections import Counter
-from tqdm import tqdm
 
 
 def bar(data):
-    """
-    进度条
-    :param data: 列表 字典 迭代器
-    :return:
+    """bar方法用于进度条
+
+    Parameters
+    ----------
+    data : int or list or dict or iterator
+
+    Returns
+    ----------
     """
     if isinstance(data, int):
         return tqdm(range(data))
@@ -37,7 +40,7 @@ def bar(data):
 
 
 def safe_eval(string):
-    """方法用于
+    """方法用于字符串转为对象
 
     Parameters
     ----------
@@ -225,9 +228,9 @@ def is_type(data, typ):
 
     Parameters
     ----------
-    data : anydata
+    data : object
         任何数据
-    typ ： anytype
+    typ : object
         需要确认的数据类型
     Returns
     ----------
@@ -238,7 +241,7 @@ def is_type(data, typ):
 
 
 def sort_list(data, ind, ascending=True):
-    """sort_list方法用于
+    """sort_list方法用于排序列表，多维列表
 
     Parameters
     ----------
@@ -315,47 +318,68 @@ def get_files(path, extension=None, exclude=None, include=None):
     return ret
 
 
-def get_name(path, extension=None, key=None):
-    """
-    获取目标目录下文件名
-    :param path:      路径
-    :param extension: 后缀
-    :param key:       关键字
-    :return:
+def get_name(path, extension=None, include=None):
+    """get_name方法用于
+
+    Parameters
+    ----------
+    path : str
+        路径
+    extension : str or None
+        后缀
+    include : str or None
+        包含某个字符
+    Returns
+    ----------
     """
     if extension is not None:
         l = -len(extension)
         ret = [each for each in os.listdir(path) if each[l:] == extension]
-    elif key is not None:
-        ret = [each for each in os.listdir(path) if key in each]
+    elif include is not None:
+        ret = [each for each in os.listdir(path) if include in each]
     else:
         ret = [each for each in os.listdir(path)]
     return ret
 
 
 def subprocess_check_call(cmd):
-    """
-    执行命令行命令
-    :param cmd:  命令行命令
-    :return:
+    """subprocess_check_call方法用于执行命令行命令
+
+    Parameters
+    ----------
+    cmd : str
+        命令行命令
+
+    Returns
+    ----------
     """
     subprocess.check_call(cmd, shell=True)
 
 
 def subprocess_call(cmd):
-    """
-    执行命令行命令，不检查
-    :param cmd:  命令行命令
-    :return:
+    """subprocess_call方法用于执行命令行命令，不检查是否执行成功
+
+    Parameters
+    ----------
+    cmd : str
+        命令行命令
+
+    Returns
+    ----------
     """
     subprocess.call(cmd, shell=True)
 
 
 def subprocess_popen(cmd):
-    """
-    执行命令获取返回值
-    :param cmd:  命令行命令
-    :return:
+    """subprocess_popen方法用于执行命令获取返回值
+
+    Parameters
+    ----------
+    cmd : str
+        命令行命令
+
+    Returns
+    ----------
     """
     p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE)
     out, err = p.communicate()
@@ -366,7 +390,7 @@ def split_path(path):
     """
     拆分目录
     eg: '/tmp/tmp/a.txt'
-        '/tmp/tmp', 'a.txt', 'a', 'txt'
+        '/tmp/tmp', 'a', '.txt', 'a.txt'
     :param path: 路径
     :return:
     """
@@ -379,11 +403,17 @@ def split_path(path):
 
 
 def inter_set(l1, l2):
-    """
-    列表交集
-    :param l1:
-    :param l2:
-    :return:
+    """inter_set方法用于列表交集
+
+    Parameters
+    ----------
+    l1 : list or set or dict
+        列表或者集合
+    l2 : list or set or dict
+        列表或者集合
+
+    Returns
+    ----------
     """
     assert type(l1) in {list, set, dict}
     assert type(l2) in {list, set, dict}
@@ -498,57 +528,6 @@ def union_set_num(l1, l2):
     return len(set(l1).union(set(l2)))
 
 
-def create_dir(path):
-    """create_dir方法用于检查文件夹是否存在，如果存在则删除重新创建
-
-        Parameters
-        ----------
-        path : str
-            文件夹路径
-
-        Returns
-        ----------
-    """
-    if not os.path.exists(path):
-        os.makedirs(path)
-        return True
-    return False
-
-
-def del_dir(path):
-    """del_dir方法用于删除目录
-
-        Parameters
-        ----------
-        path : str
-            文件夹路径
-
-        Returns
-        ----------
-    """
-    if os.path.exists(path):
-        shutil.rmtree(path)
-        return True
-    return False
-
-
-def del_file(path):
-    """del_file方法用于删除文件
-
-        Parameters
-        ----------
-        path : str
-            文件夹路径
-
-        Returns
-        ----------
-    """
-    if os.path.exists(path):
-        os.remove(path)
-        return True
-    return False
-
-
 def combin_dic(*args):
     """combin_dic方法用于合并字典
 
@@ -575,7 +554,7 @@ def combin_dic(*args):
 
 
 def add_dic(dica, dicb):
-    """add_dic方法用于字典累加
+    """add_dic方法用于字典累加,数字，字符累加
 
         Parameters
         ----------
@@ -602,11 +581,11 @@ def add_dic(dica, dicb):
 
 
 def split_list(_list, slice):
-    """split_list方法用于字典累加
+    """split_list方法用于分割列表
 
         Parameters
         ----------
-        _list : dict
+        _list : list
             列表
         slice : int
             拆分块的大小
@@ -921,7 +900,7 @@ def iou(l1, l2):
 
 
 def list_to_dict(_list):
-    """list_to_dict方法用于列表转化为字典
+    """list_to_dict方法用于列表转化为字典[[key, val, val], [key, val, val]]
 
     Parameters
     ----------

@@ -2,7 +2,7 @@
 """
 -------------------------------------------------
    File Name：     date
-   Description :
+   Description :   用于处理日期
    Author :        Asdil
    date：          2020/10/9
 -------------------------------------------------
@@ -55,7 +55,7 @@ def datetime_to_str(date, milliseconds=False):
 
 def timestamp_to_datetime(timestamp):
     """timestamp_to_str方法用于时间戳转日期字符串
-
+    time.time() 转 datetime
     Parameters
     ----------
     timestamp : float
@@ -81,7 +81,7 @@ def datetime_to_timestamp(date):
 
 def timestamp_to_str(timestamp, milliseconds=False):
     """timestamp_to_str方法用于时间戳转日期字符串
-
+    time.time()
     Parameters
     ----------
     timestamp : float
@@ -120,5 +120,7 @@ def now_str(format_type=2):
 
 
 if __name__ == "__main__":
-    date = str_to_datetime("2018-10-21")
-    print(now_str())
+    import time
+    from datetime import timedelta
+    a = datetime.now() + timedelta(days=1)
+    print(a)

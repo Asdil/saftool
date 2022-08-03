@@ -102,8 +102,6 @@ def memmap(data, path='/tmp/'):
     ----------
     内存共享的变量
     """
-    # tmp_folder = tempfile.mkdtemp()
-    # tmp_path = tool.path_join(tmp_folder, 'joblib.mmap')
     tmp_path = tool.path_join(path, 'joblib.mmap')
     if fo.is_exist(tmp_path):  # 若存在则删除
         fo.del_file(tmp_path)

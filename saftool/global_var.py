@@ -2,27 +2,19 @@
 """
 -------------------------------------------------
    File Name：     global_var
-   Description :   用于全局变量
+   Description :   用于保存全局变量
    Author :        Asdil
    date：          2020/11/5
 -------------------------------------------------
    Change Activity:
-                   2020/11/5:
+                   2022/08/03:
 -------------------------------------------------
 """
 __author__ = 'Asdil'
 
 
 def __init():
-    """__init方法用于初始化
-
-    Parameters
-    ----------
-    param : str
-
-    Returns
-    ----------
-    """
+    """__init方法用于初始化"""
     global __global_dict
     __global_dict = {}
 
@@ -56,21 +48,13 @@ def set(key, value):
     """
     if type(key) is dict:
         for k in key:
-            del __global_dict[k]  # 先删除
             __global_dict[k] = key[k]
     else:
-        del __global_dict[key]  # 先删除
         __global_dict[key] = value
 
 
 def keys():
-    """keys方法用于获取所有变量名
-
-    Parameters
-    ----------
-    Returns
-    ----------
-    """
+    """keys方法用于获取所有变量名"""
     return list(__global_dict.keys())
 
 
